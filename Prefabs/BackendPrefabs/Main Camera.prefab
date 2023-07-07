@@ -134,7 +134,7 @@ MonoBehaviour:
   worldRight: 50
   lockX: 0
   lockY: 0
-  lerpSpeed: 5
+  lerpSpeed: 10
 --- !u!114 &2168836924331988603
 MonoBehaviour:
   m_ObjectHideFlags: 0
