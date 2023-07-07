@@ -1,6 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEditor.FilePathAttribute;
+using UnityEngine.U2D;
+using UnityEngine.UIElements;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class PlayerMovementController : MonoBehaviour
 {
@@ -22,12 +28,15 @@ public class PlayerMovementController : MonoBehaviour
     // Percent slowdown when changing direction in air. Should be between 0 and 1, with 0 being unable to control movement in air, and 1 being no different than being on land.
     public float airSlowdownPercent;
 
+    [Header("Light Controls")]
+    public float lightRad;
+
     [Header("Internal Handlers Below This Point")]
     // The player Rigidbody. Use to MovePosition (DO NOT USE VELOCITY)
     public Rigidbody2D r2;
     // Variables to track if a collision is occuring on a face. Testing still required. Controlled by PhsyicsContactCheck
     private bool onGround, touchingFront, touchingBack, touchingTop;
-    private bool isJumping;
+    //private bool isJumping;
     private float jumpTime;
     int bufferTimer;
 
@@ -44,7 +53,7 @@ public class PlayerMovementController : MonoBehaviour
     public Transform[] feetPos, headPos, frontPos, backPos;
 
     // Tracks key inputs
-    bool jumpInput, leftInput, rightInput, upInput, downInput, pauseCancel;
+    bool jumpInput, leftInput, rightInput, upInput, downInput, pauseCancel, clickInput;
 
     bool isTransitioning;
 
@@ -64,6 +73,14 @@ public class PlayerMovementController : MonoBehaviour
 
     // Keybinds
     private PlayerControls controls;
+
+    [SerializeField]
+    private GameObject voidLight;
+
+    [SerializeField]
+    public Camera mainCamera;
+
+    private GameObject activeLightPointer;
 
     // Vector for remembering previous frame's movement.
     Vector2 oldMoveVector = new Vector2(0.0f, 0.0f);
@@ -104,6 +121,10 @@ public class PlayerMovementController : MonoBehaviour
         controls.MouseKeyboard.up.canceled += _ => { stopUp(); };
         controls.MouseKeyboard.down.started += _ => { startDown(); };
         controls.MouseKeyboard.down.canceled += _ => { stopDown(); };
+
+        // Shoot (the light)
+        controls.MouseKeyboard.shoot.started += _ => { startClick(); };
+        controls.MouseKeyboard.shoot.canceled += _ => { stopClick(); };
 
         // Pause
         controls.MouseKeyboard.pause.started += _ => { updatePause(); };
@@ -146,6 +167,9 @@ public class PlayerMovementController : MonoBehaviour
 
         // Move the player while on land.
         physicsLandMove();
+
+        // Handle the light mechanic
+        lightUpdate();
     }
 
     private void physicsLandMove()
@@ -165,6 +189,15 @@ public class PlayerMovementController : MonoBehaviour
         r2.MovePosition(r2.position + moveVector);
 
         oldMoveVector = moveVector;
+    }
+
+    private void lightUpdate()
+    {
+        if (activeLightPointer != null)
+        {
+            Vector2 mousePosition = mainCamera.ScreenToWorldPoint(controls.MouseKeyboard.mousePos.ReadValue<Vector2>());
+            activeLightPointer.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0.0f);
+        }
     }
 
     // Some methods will update the value of moveVector to 0 on that axis after snapping.
@@ -383,7 +416,7 @@ public class PlayerMovementController : MonoBehaviour
     // General methods for starting a jump.
     private void initiateJumpFunction()
     {
-        isJumping = true;
+        //isJumping = true;
         jumpTime = maxJumpTime;
         bufferTimer = 0;
         //animator.SetTrigger("Jump");
@@ -393,7 +426,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         jumpInput = false;
         if (maxJumpTime - jumpTime < minJumpTime) { jumpTime = minJumpTime - (maxJumpTime - jumpTime); }
-        else { jumpTime = 0; isJumping = false; }
+        //else { jumpTime = 0; isJumping = false; }
     }
 
     // Run on left input pressed
@@ -442,6 +475,35 @@ public class PlayerMovementController : MonoBehaviour
     private void stopDown()
     {
         downInput = false;
+    }
+    private void startClick()
+    {
+        clickInput = true;
+        createLight();
+    }
+
+    private void stopClick()
+    {
+        clickInput = false;
+        destroyLight();
+    }
+
+    void createLight()
+    {
+        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(controls.MouseKeyboard.mousePos.ReadValue<Vector2>());
+        GameObject activeLight = Instantiate(voidLight);
+        activeLight.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0.0f);
+        activeLight.GetComponent<VoidLight>().setRadius(lightRad);
+        activeLightPointer = activeLight;
+    }
+
+    void destroyLight()
+    {
+        if(activeLightPointer != null)
+        {
+            Destroy(activeLightPointer.gameObject);
+            activeLightPointer = null;
+        }
     }
 
     private bool checkIsGrounded()
@@ -724,7 +786,6 @@ public class PlayerMovementController : MonoBehaviour
         // If maxGroundPos was updated, ground was found, so snap to it!.
         if (minGroundPos.y != float.PositiveInfinity)
         {
-            Debug.Log("Snap!");
             moveVector = new Vector2(moveVector.x, (minGroundPos.y - headPos[0].position.y - (checkDistance / 2.0f)));
         }
         return moveVector;
