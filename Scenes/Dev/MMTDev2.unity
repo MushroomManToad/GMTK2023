@@ -988,6 +988,10 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.r
       value: 0.1921697
       objectReference: {fileID: 0}
+    - target: {fileID: 1300382408894902867, guid: 963c7af0038b8cd4bad99a59cd450a7e, type: 3}
+      propertyPath: lerpSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1723042352637505499, guid: 963c7af0038b8cd4bad99a59cd450a7e, type: 3}
       propertyPath: m_Name
       value: PlayObj

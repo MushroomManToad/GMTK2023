@@ -107,6 +107,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""8afc0acc-2988-45b4-b74e-95bcc6067f80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -274,6 +283,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c5e8e9e-89bf-4208-8d21-f7316dc7b7c7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -297,6 +317,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_MouseKeyboard_mousePos = m_MouseKeyboard.FindAction("mousePos", throwIfNotFound: true);
         m_MouseKeyboard_Jump = m_MouseKeyboard.FindAction("Jump", throwIfNotFound: true);
         m_MouseKeyboard_pause = m_MouseKeyboard.FindAction("pause", throwIfNotFound: true);
+        m_MouseKeyboard_RightClick = m_MouseKeyboard.FindAction("RightClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -367,6 +388,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MouseKeyboard_mousePos;
     private readonly InputAction m_MouseKeyboard_Jump;
     private readonly InputAction m_MouseKeyboard_pause;
+    private readonly InputAction m_MouseKeyboard_RightClick;
     public struct MouseKeyboardActions
     {
         private @PlayerControls m_Wrapper;
@@ -380,6 +402,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @mousePos => m_Wrapper.m_MouseKeyboard_mousePos;
         public InputAction @Jump => m_Wrapper.m_MouseKeyboard_Jump;
         public InputAction @pause => m_Wrapper.m_MouseKeyboard_pause;
+        public InputAction @RightClick => m_Wrapper.m_MouseKeyboard_RightClick;
         public InputActionMap Get() { return m_Wrapper.m_MouseKeyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -416,6 +439,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @pause.started += instance.OnPause;
             @pause.performed += instance.OnPause;
             @pause.canceled += instance.OnPause;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
         }
 
         private void UnregisterCallbacks(IMouseKeyboardActions instance)
@@ -447,6 +473,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @pause.started -= instance.OnPause;
             @pause.performed -= instance.OnPause;
             @pause.canceled -= instance.OnPause;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
         }
 
         public void RemoveCallbacks(IMouseKeyboardActions instance)
@@ -484,5 +513,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMousePos(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
     }
 }

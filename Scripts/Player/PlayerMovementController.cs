@@ -53,7 +53,7 @@ public class PlayerMovementController : MonoBehaviour
     public Transform[] feetPos, headPos, frontPos, backPos;
 
     // Tracks key inputs
-    bool jumpInput, leftInput, rightInput, upInput, downInput, pauseCancel, clickInput;
+    bool jumpInput, leftInput, rightInput, upInput, downInput, pauseCancel, clickInput, rClickInput;
 
     bool isTransitioning;
 
@@ -125,6 +125,9 @@ public class PlayerMovementController : MonoBehaviour
         // Shoot (the light)
         controls.MouseKeyboard.shoot.started += _ => { startClick(); };
         controls.MouseKeyboard.shoot.canceled += _ => { stopClick(); };
+
+        controls.MouseKeyboard.RightClick.started += _ => { rClickInput = true; };
+        controls.MouseKeyboard.RightClick.canceled += _ => { rClickInput = false; };
 
         // Pause
         controls.MouseKeyboard.pause.started += _ => { updatePause(); };
@@ -860,5 +863,10 @@ public class PlayerMovementController : MonoBehaviour
     public Animator getAnimator()
     {
         return animator;
+    }
+
+    public bool getIsClicking()
+    {
+        return rClickInput || clickInput;
     }
 }

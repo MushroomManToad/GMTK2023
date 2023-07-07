@@ -18,7 +18,6 @@ public class VEmitter : MonoBehaviour, ILightInteractable
 
     public void onLit()
     {
-        Debug.Log("Light");
         emitter.SetActive(true);
         isLit = true;
     }
