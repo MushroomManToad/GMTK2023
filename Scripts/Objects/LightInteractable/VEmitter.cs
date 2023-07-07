@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VEmitter : MonoBehaviour
+public class VEmitter : MonoBehaviour, ILightInteractable
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject emitter;
+    bool isLit = true;
+
+    private void FixedUpdate()
     {
-        
+        if(!isLit && emitter.activeInHierarchy)
+        {
+            emitter.SetActive(false);
+        }
+        isLit = false;   
     }
 
-    // Update is called once per frame
-    void Update()
+    public void onLit()
     {
-        
+        Debug.Log("Light");
+        emitter.SetActive(true);
+        isLit = true;
     }
 }
