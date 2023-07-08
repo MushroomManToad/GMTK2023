@@ -7,6 +7,7 @@ using static UnityEditor.FilePathAttribute;
 using UnityEngine.U2D;
 using UnityEngine.UIElements;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovementController : MonoBehaviour
 {
@@ -132,6 +133,9 @@ public class PlayerMovementController : MonoBehaviour
         // Pause
         controls.MouseKeyboard.pause.started += _ => { updatePause(); };
         controls.MouseKeyboard.pause.canceled += _ => { pauseCancel = false; };
+
+        // Reset
+        controls.MouseKeyboard.Restart.started += _ => { ResetLevel(); };
     }
 
     // Update is called once per frame (Depends on FPS -- Do not use for anything that should run on Physics -- only call for rendering)
@@ -883,5 +887,10 @@ public class PlayerMovementController : MonoBehaviour
     public bool getIsClicking()
     {
         return rClickInput || clickInput;
+    }
+
+    private void ResetLevel()
+    {
+        SceneTransferManager.Instance.loadScene(SceneManager.GetActiveScene().name);
     }
 }
