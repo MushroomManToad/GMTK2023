@@ -14,7 +14,7 @@ public class TitleButtonFunctions : MonoBehaviour
 
     public void play()
     {
-        SceneTransferManager.Instance.loadScene("Scenes/Dev/MMTAssetTesting");
+        SceneTransferManager.Instance.loadScene("Scenes/Game/Level1");
     }
 
     public void credits()
