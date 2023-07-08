@@ -19,6 +19,7 @@ public class CameraStateTrigger : MonoBehaviour
             if(lockToPlayer)
             {
                 mainCamera.setCameraMode(0);
+                mainCamera.setLerp();
             }
             else if (lockToPlayerWithOffset)
             {

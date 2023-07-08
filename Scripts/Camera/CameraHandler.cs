@@ -88,11 +88,13 @@ public class CameraHandler : MonoBehaviour
 
         Vector3 targetPos = new Vector3(newX, newY, transform.position.z);
 
-        float blend = lerpSpeed / 10.0f;
+        float blend = 0.95f;
 
         transform.position = Vector3.Lerp(targetPos, transform.position, blend);
 
-        if (Vector3.Distance(transform.position, target_Pos) < snapDistance)
+        Vector2 camPos = new Vector2(transform.position.x, transform.position.y);
+
+        if (Vector3.Distance(camPos, target_Pos) < snapDistance)
         {
             transform.position = new Vector3(target_Pos.x, target_Pos.y, transform.position.z);
         }
