@@ -1318,6 +1318,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9054302977844457222, guid: 4ebbc5afccaf23a4ba3a885548ff2d70, type: 3}
+      propertyPath: range
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054302977844457222, guid: 4ebbc5afccaf23a4ba3a885548ff2d70, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 422111532}

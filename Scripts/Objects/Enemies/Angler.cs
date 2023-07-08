@@ -59,7 +59,7 @@ public class Angler : MonoBehaviour
             Vector2 normScaledVec = normVec * bulletSpeed;
             fastBulletScript.setDirection(normScaledVec);
         }
-        
+        fastBullet.transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Atan2(facing.y, facing.x) * (180.0f / Mathf.PI));
         fastBullet.transform.position = new Vector3(transform.position.x + normVec.x, transform.position.y + normVec.y, 0.0f);
     }
 }
