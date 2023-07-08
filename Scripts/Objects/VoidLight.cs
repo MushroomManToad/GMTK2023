@@ -24,5 +24,6 @@ public class VoidLight : MonoBehaviour
     public void setRadius(float radius)
     {
         this.radius = radius;
+        transform.localScale = new Vector3(radius * 2.0f, radius * 2.0f, 1.0f);
     }
 }

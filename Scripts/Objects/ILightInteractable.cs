@@ -5,4 +5,6 @@ using UnityEngine;
 public interface ILightInteractable
 {
     abstract void onLit();
+
+    abstract void onUnlit();
 }

@@ -21,4 +21,9 @@ public class VEmitter : MonoBehaviour, ILightInteractable
         emitter.SetActive(true);
         isLit = true;
     }
+
+    public void onUnlit()
+    {
+
+    }
 }

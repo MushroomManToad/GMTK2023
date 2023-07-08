@@ -58,4 +58,9 @@ public class VDoor : MonoBehaviour, ILightInteractable
         // Sound
         isClosed = true;
     }
+
+    public void onUnlit()
+    {
+
+    }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /// <summary>
 /// Inherit from this base class to create a singleton.
@@ -10,6 +11,13 @@ public class CustomSingleton<T> : MonoBehaviour where T : MonoBehaviour
     private static bool m_ShuttingDown = false;
     private static object m_Lock = new object();
     private static T m_Instance;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void Init()
+    {
+        m_ShuttingDown = false;
+        m_Lock = new object();
+    }
 
     /// <summary>
     /// Access singleton instance through this propriety.
