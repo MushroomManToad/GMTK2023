@@ -134,7 +134,7 @@ MonoBehaviour:
   worldRight: 50
   lockX: 0
   lockY: 0
-  lerpSpeed: 0.8
+  lerpSpeed: 0.875
   lerpOffset: 0
   snapDistance: 0.05
 --- !u!114 &2168836924331988603

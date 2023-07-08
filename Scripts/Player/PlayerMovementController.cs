@@ -32,6 +32,16 @@ public class PlayerMovementController : MonoBehaviour
     [Header("Light Controls")]
     public float lightRad;
 
+    [Header("Player Stats")]
+    [SerializeField]
+    private int maxHealth;
+    private int currHealth;
+    [SerializeField]
+    private float maxStamina;
+    private float currStamina;
+    [SerializeField]
+    private float stamCostPerFrame, stamRegen;
+
     [Header("Internal Handlers Below This Point")]
     // The player Rigidbody. Use to MovePosition (DO NOT USE VELOCITY)
     public Rigidbody2D r2;
@@ -81,7 +91,13 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     public Camera mainCamera;
 
+    [SerializeField]
+    private PlayerUI playerUI;
+
     private GameObject activeLightPointer;
+
+    // A bool to track when the player cannot summon a light.
+    bool overheated = false;
 
     // Vector for remembering previous frame's movement.
     Vector2 oldMoveVector = new Vector2(0.0f, 0.0f);
@@ -104,6 +120,10 @@ public class PlayerMovementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Health
+        currHealth = maxHealth;
+        currStamina = maxStamina;
+
         // Performed = KeyDown, Canceled = KeyUp
 
         // Jump
@@ -200,8 +220,21 @@ public class PlayerMovementController : MonoBehaviour
 
     private void lightUpdate()
     {
+        if (clickInput && !overheated)
+        {
+            addStamina(-stamCostPerFrame);
+        }
+        else
+        {
+            addStamina(stamRegen);
+        }
         if (activeLightPointer != null)
         {
+            VoidLight light = activeLightPointer.GetComponent<VoidLight>();
+            if(light != null)
+            {
+                light.setRadius(getVoidLightRad());
+            }
             Vector2 mousePosition = mainCamera.ScreenToWorldPoint(controls.MouseKeyboard.mousePos.ReadValue<Vector2>());
             activeLightPointer.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0.0f);
         }
@@ -497,6 +530,8 @@ public class PlayerMovementController : MonoBehaviour
         {
             ch.setLerp();
         }
+        // Release lock on OnOff Blocks
+        GameStateHandler.Instance.releaseLock();
         clickInput = false;
     }
 
@@ -512,17 +547,25 @@ public class PlayerMovementController : MonoBehaviour
 
     void createLight()
     {
-        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(controls.MouseKeyboard.mousePos.ReadValue<Vector2>());
-        GameObject activeLight = Instantiate(voidLight);
-        activeLight.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0.0f);
-        activeLight.GetComponent<VoidLight>().setRadius(lightRad);
-        activeLightPointer = activeLight;
+        if(!overheated)
+        {
+            Vector2 mousePosition = mainCamera.ScreenToWorldPoint(controls.MouseKeyboard.mousePos.ReadValue<Vector2>());
+            GameObject activeLight = Instantiate(voidLight);
+            activeLight.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0.0f);
+            activeLight.GetComponent<VoidLight>().setRadius(getVoidLightRad());
+            activeLightPointer = activeLight;
+        }
     }
 
     void destroyLight()
     {
         if(activeLightPointer != null)
         {
+            VoidLight vl = activeLightPointer.GetComponent<VoidLight>();
+            if(vl != null)
+            {
+
+            }
             Destroy(activeLightPointer.gameObject);
             activeLightPointer = null;
         }
@@ -897,5 +940,85 @@ public class PlayerMovementController : MonoBehaviour
     public Vector2 getMoveVector()
     {
         return new Vector2(oldMoveVector.x, oldMoveVector.y);
+    }
+
+    // Can handle negative values :)
+    public void addStamina(float stamina)
+    {
+        updateStamina(getStamina() + stamina);
+    }
+
+    public void updateStamina(float newStam)
+    {
+        if(newStam > maxStamina)
+        {
+            currStamina = maxStamina;
+            overheated = false;
+            playerUI.setOverheated(false);
+        }
+        else if (newStam < 0)
+        {
+            currStamina = 0;
+            overheated = true;
+            playerUI.setOverheated(true);
+        }
+        else
+        {
+            currStamina = newStam;
+        }
+
+        playerUI.updateStamina(currStamina, maxStamina);
+    }
+
+    public float getStamina()
+    {
+        return currStamina;
+    }
+
+    // Can handle negative values :)
+    public void addHealth(int health)
+    {
+        updateHealth(getHealth() + health);
+    }
+
+    public void updateHealth(int newHealth)
+    {
+        if (newHealth > maxHealth)
+        {
+            currHealth = maxHealth;
+        }
+        else if (newHealth < 0)
+        {
+            currHealth = 0;
+            kill();
+        }
+        else
+        {
+            currHealth = newHealth;
+        }
+
+        playerUI.updateHP(currHealth, maxHealth);
+    }
+
+    public int getHealth()
+    {
+        return currHealth;
+    }
+
+    public void kill()
+    {
+        SceneTransferManager.Instance.loadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private float getVoidLightRad()
+    {
+        if(currStamina / maxStamina > 0.5f)
+        {
+            return lightRad * 1.0f;
+        }
+        else
+        {
+            return (2.0f * (currStamina / maxStamina)) * lightRad;
+        }
     }
 }

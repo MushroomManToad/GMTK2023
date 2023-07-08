@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameStateHandler : CustomSingleton<GameStateHandler>
 {
+    bool locked = false;
+
     bool onOffOff = false;
 
     protected GameStateHandler() { }
@@ -15,6 +17,19 @@ public class GameStateHandler : CustomSingleton<GameStateHandler>
 
     public void setOnOff(bool onOff)
     {
-        onOffOff = onOff;
+        if( !locked )
+        {
+            onOffOff = onOff;
+        }
+    }
+
+    public void setLock()
+    {
+        locked = true;
+    }
+
+    public void releaseLock()
+    {
+        locked = false;
     }
 }
