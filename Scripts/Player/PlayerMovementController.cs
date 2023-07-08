@@ -893,4 +893,9 @@ public class PlayerMovementController : MonoBehaviour
     {
         SceneTransferManager.Instance.loadScene(SceneManager.GetActiveScene().name);
     }
+
+    public Vector2 getMoveVector()
+    {
+        return new Vector2(oldMoveVector.x, oldMoveVector.y);
+    }
 }
