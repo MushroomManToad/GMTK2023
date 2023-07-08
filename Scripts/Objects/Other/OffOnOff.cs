@@ -13,14 +13,7 @@ public class OffOnOff : MonoBehaviour, ILightInteractable
 
     private void FixedUpdate()
     {
-        if (!isOn && GameStateHandler.Instance.getOnOff())
-        {
-            turnOn();
-        }
-        if (isOn && !GameStateHandler.Instance.getOnOff())
-        {
-            turnOff();
-        }
+
     }
 
     private void turnOff()
@@ -40,5 +33,19 @@ public class OffOnOff : MonoBehaviour, ILightInteractable
     public void onLit()
     {
         GameStateHandler.Instance.setOnOff(!GameStateHandler.Instance.getOnOff());
+        GameStateHandler.Instance.setLock();
+        if (!isOn && GameStateHandler.Instance.getOnOff())
+        {
+            turnOn();
+        }
+        if (isOn && !GameStateHandler.Instance.getOnOff())
+        {
+            turnOff();
+        }
+    }
+
+    public void onUnlit()
+    {
+
     }
 }

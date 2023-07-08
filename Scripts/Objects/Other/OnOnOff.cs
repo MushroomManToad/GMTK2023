@@ -40,5 +40,11 @@ public class OnOnOff : MonoBehaviour, ILightInteractable
     public void onLit()
     {
         GameStateHandler.Instance.setOnOff(!GameStateHandler.Instance.getOnOff());
+        GameStateHandler.Instance.setLock();
+    }
+
+    public void onUnlit()
+    {
+
     }
 }
