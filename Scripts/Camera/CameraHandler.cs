@@ -11,6 +11,8 @@ public class CameraHandler : MonoBehaviour
 
     public float lerpSpeed;
 
+    public float lerpOffset;
+
     public float snapDistance;
 
     private bool shouldLerp = false;
@@ -69,20 +71,20 @@ public class CameraHandler : MonoBehaviour
                                 float height = Screen.currentResolution.height;
                                 float width = Screen.currentResolution.width;
                                 float xos = (yos * 2 * width) / height;
-                                float px = playerTransform.position.x;
+                                float px = playerTransform.position.x + pmc.getMoveVector().x * lerpOffset;
                                 newX = (px - xos < worldLeft) ? worldLeft + xos : (px + xos > worldRight) ? worldRight - xos : px;
                             }
                             if (!lockY)
                             {
                                 float yos = GetComponentInChildren<UnityEngine.Camera>().orthographicSize / 2;
-                                float py = playerTransform.position.y;
+                                float py = playerTransform.position.y + pmc.getMoveVector().y * lerpOffset;
                                 float cy = GetComponentInChildren<UnityEngine.Camera>().transform.position.y;
                                 newY = (py - yos < worldMin) ? worldMin + yos : (py + yos > worldMax) ? worldMax - yos : py;
                             }
 
                             Vector3 targetPos = new Vector3(newX, newY, transform.position.z);
 
-                            float blend = Mathf.Pow(0.5f, Time.deltaTime * lerpSpeed);
+                            float blend = lerpSpeed;
 
                             transform.position = Vector3.Lerp(targetPos, transform.position, blend);
 
