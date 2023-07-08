@@ -990,7 +990,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1300382408894902867, guid: 963c7af0038b8cd4bad99a59cd450a7e, type: 3}
       propertyPath: lerpSpeed
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300382408894902867, guid: 963c7af0038b8cd4bad99a59cd450a7e, type: 3}
+      propertyPath: snapDistance
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1723042352637505499, guid: 963c7af0038b8cd4bad99a59cd450a7e, type: 3}
       propertyPath: m_Name
