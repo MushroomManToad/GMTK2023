@@ -975,6 +975,41 @@ public class PlayerMovementController : MonoBehaviour
         return currStamina;
     }
 
+    // Can handle negative values :)
+    public void addHealth(int health)
+    {
+        updateHealth(getHealth() + health);
+    }
+
+    public void updateHealth(int newHealth)
+    {
+        if (newHealth > maxHealth)
+        {
+            currHealth = maxHealth;
+        }
+        else if (newHealth < 0)
+        {
+            currHealth = 0;
+            kill();
+        }
+        else
+        {
+            currHealth = newHealth;
+        }
+
+        playerUI.updateHP(currHealth, maxHealth);
+    }
+
+    public int getHealth()
+    {
+        return currHealth;
+    }
+
+    public void kill()
+    {
+        SceneTransferManager.Instance.loadScene(SceneManager.GetActiveScene().name);
+    }
+
     private float getVoidLightRad()
     {
         if(currStamina / maxStamina > 0.5f)
