@@ -11,9 +11,22 @@ public class OffOnOff : MonoBehaviour, ILightInteractable
     [SerializeField]
     private Collider2D blockCollider;
 
+    private int waitFrames = 0;
+
     private void FixedUpdate()
     {
-
+        if(waitFrames > 3)
+        {
+            if (!isOn && GameStateHandler.Instance.getOnOff())
+            {
+                turnOn();
+            }
+            if (isOn && !GameStateHandler.Instance.getOnOff())
+            {
+                turnOff();
+            }
+        }
+        waitFrames++;
     }
 
     private void turnOff()
@@ -34,14 +47,6 @@ public class OffOnOff : MonoBehaviour, ILightInteractable
     {
         GameStateHandler.Instance.setOnOff(!GameStateHandler.Instance.getOnOff());
         GameStateHandler.Instance.setLock();
-        if (!isOn && GameStateHandler.Instance.getOnOff())
-        {
-            turnOn();
-        }
-        if (isOn && !GameStateHandler.Instance.getOnOff())
-        {
-            turnOff();
-        }
     }
 
     public void onUnlit()
