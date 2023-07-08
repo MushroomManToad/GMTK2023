@@ -136,7 +136,7 @@ public class PlayerModules : MonoBehaviour
     {
         isDashing = false;
         dashState = false;
-        pmc.getAnimator().SetBool("IsDashing", false);
+        //pmc.getAnimator().SetBool("IsDashing", false);
         // Yes, it breaks without this check due to releasing the key.
         if(dashCurrCD <= 0)
         {

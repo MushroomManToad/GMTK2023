@@ -127,7 +127,7 @@ public class PlayerMovementController : MonoBehaviour
         controls.MouseKeyboard.shoot.canceled += _ => { stopClick(); };
 
         controls.MouseKeyboard.RightClick.started += _ => { rClickInput = true; };
-        controls.MouseKeyboard.RightClick.canceled += _ => { rClickInput = false; };
+        controls.MouseKeyboard.RightClick.canceled += _ => { stopRClick(); };
 
         // Pause
         controls.MouseKeyboard.pause.started += _ => { updatePause(); };
@@ -487,8 +487,23 @@ public class PlayerMovementController : MonoBehaviour
 
     private void stopClick()
     {
-        clickInput = false;
         destroyLight();
+        CameraHandler ch = mainCamera.gameObject.GetComponent<CameraHandler>();
+        if (ch != null)
+        {
+            ch.setLerp();
+        }
+        clickInput = false;
+    }
+
+    private void stopRClick()
+    { 
+        CameraHandler ch = mainCamera.gameObject.GetComponent<CameraHandler>();
+        if(ch != null)
+        {
+            ch.setLerp();
+        }
+        rClickInput = false;
     }
 
     void createLight()

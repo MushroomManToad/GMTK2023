@@ -135,6 +135,7 @@ MonoBehaviour:
   lockX: 0
   lockY: 0
   lerpSpeed: 10
+  snapDistance: 0.025
 --- !u!114 &2168836924331988603
 MonoBehaviour:
   m_ObjectHideFlags: 0
