@@ -5,5 +5,7 @@ using UnityEngine;
 public enum EnumFacing
 {
     LEFT,
-    RIGHT
+    RIGHT,
+    UP,
+    DOWN
 }

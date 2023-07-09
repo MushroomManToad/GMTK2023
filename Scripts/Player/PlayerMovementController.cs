@@ -102,6 +102,9 @@ public class PlayerMovementController : MonoBehaviour
     // Vector for remembering previous frame's movement.
     Vector2 oldMoveVector = new Vector2(0.0f, 0.0f);
 
+    [SerializeField]
+    GameObject playerSprite;
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -473,48 +476,109 @@ public class PlayerMovementController : MonoBehaviour
     private void startLeft()
     {
         leftInput = true;
+        if(upInput && downInput)
+        {
+            setSpriteFacing(EnumFacing.LEFT);
+        }
     }
 
     // Run on left input released
     private void stopLeft()
     {
         leftInput = false;
+        if (upInput)
+        {
+            setSpriteFacing(EnumFacing.UP);
+        }
+        else if (downInput)
+        {
+            setSpriteFacing(EnumFacing.DOWN);
+        }
+        else if (rightInput)
+        {
+            setSpriteFacing(EnumFacing.RIGHT);
+        }
     }
 
     // Run on right input pressed
     private void startRight()
     {
         rightInput = true;
+        if (!upInput && !downInput)
+        {
+            setSpriteFacing(EnumFacing.RIGHT);
+        }
     }
 
     // Run on right input released
     private void stopRight()
     {
         rightInput = false;
+        if (upInput)
+        {
+            setSpriteFacing(EnumFacing.UP);
+        }
+        else if (downInput)
+        {
+            setSpriteFacing(EnumFacing.DOWN);
+        }
+        else if (leftInput)
+        {
+            setSpriteFacing(EnumFacing.LEFT);
+        }
     }
 
     // Run on up input pressed
     private void startUp()
     {
         upInput = true;
+        setSpriteFacing(EnumFacing.UP);
     }
 
     // Run on up input released
     private void stopUp()
     {
         upInput = false;
+        if (rightInput)
+        {
+            setSpriteFacing(EnumFacing.RIGHT);
+        }
+        else if (downInput)
+        {
+            setSpriteFacing(EnumFacing.DOWN);
+        }
+        else if (leftInput)
+        {
+            setSpriteFacing(EnumFacing.LEFT);
+        }
     }
 
     // Run on down input pressed
     private void startDown()
     {
         downInput = true;
+        if(!upInput)
+        {
+            setSpriteFacing(EnumFacing.DOWN);
+        }
     }
 
     // Run on down input released
     private void stopDown()
     {
         downInput = false;
+        if (rightInput)
+        {
+            setSpriteFacing(EnumFacing.RIGHT);
+        }
+        else if (upInput)
+        {
+            setSpriteFacing(EnumFacing.UP);
+        }
+        else if (leftInput)
+        {
+            setSpriteFacing(EnumFacing.LEFT);
+        }
     }
     private void startClick()
     {
@@ -679,11 +743,31 @@ public class PlayerMovementController : MonoBehaviour
         this.facing = dir;
         if (facing == EnumFacing.LEFT)
         {
-            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            //transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
         }
         else
         {
-            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            //transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+    }
+
+    private void setSpriteFacing(EnumFacing dir)
+    {
+        if(dir == EnumFacing.LEFT)
+        {
+            playerSprite.transform.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
+        }
+        else if (dir == EnumFacing.RIGHT)
+        {
+            playerSprite.transform.eulerAngles = new Vector3(0.0f, 0.0f, -90.0f);
+        }
+        else if (dir == EnumFacing.UP)
+        {
+            playerSprite.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+        }
+        else
+        {
+            playerSprite.transform.eulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
         }
     }
 
@@ -895,7 +979,7 @@ public class PlayerMovementController : MonoBehaviour
         // Set to negative infinity to start. Will increase if ground is detecting, ending at the highest ground pos found.
         Vector2 maxGroundPos = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
 
-        Transform[] usePos = (facing == EnumFacing.LEFT) ? frontPos : backPos;
+        Transform[] usePos = backPos;
 
         foreach (Transform tf in usePos)
         {
@@ -987,7 +1071,7 @@ public class PlayerMovementController : MonoBehaviour
         {
             currHealth = maxHealth;
         }
-        else if (newHealth < 0)
+        else if (newHealth <= 0)
         {
             currHealth = 0;
             kill();
