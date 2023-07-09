@@ -180,8 +180,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769464892866787321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.125, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1868360631515626020}
@@ -228,7 +228,7 @@ SpriteRenderer:
   m_SortingLayerID: 315962109
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1727684221, guid: b89c6a7906cdfb743b1aa1d4e3cf2b2d, type: 3}
+  m_Sprite: {fileID: 1882483910, guid: a66fa804b4d05434ea38a2d8cfd8b3b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -503,6 +503,10 @@ MonoBehaviour:
   accelFrames: 0
   airSlowdownPercent: 1
   lightRad: 1
+  maxHealth: 5
+  maxStamina: 100
+  stamCostPerFrame: 0.3
+  stamRegen: 0.1
   r2: {fileID: 1868360631515626023}
   checkDistance: 0.0001
   whatIsGround:
@@ -531,6 +535,7 @@ MonoBehaviour:
   modules: {fileID: 3705348140831126100}
   voidLight: {fileID: 2593449334598328781, guid: 67c031bbcaeb884439aa901989ec5e87, type: 3}
   mainCamera: {fileID: 0}
+  playerUI: {fileID: 0}
 --- !u!114 &3705348140831126100
 MonoBehaviour:
   m_ObjectHideFlags: 0
