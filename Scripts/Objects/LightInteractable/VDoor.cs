@@ -24,7 +24,7 @@ public class VDoor : MonoBehaviour, ILightInteractable
         if(!isClosed && timer > closeTime)
         {
             Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(sizeX, sizeY), transform.eulerAngles.z);
-            if(colliders.Length <= 1)
+            if(colliders.Length <= 2)
             {
                 closeDoor();
             }

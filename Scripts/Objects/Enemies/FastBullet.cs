@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEngine.UI.Image;
 
 public class FastBullet : MonoBehaviour, ILightInteractable
@@ -62,6 +61,18 @@ public class FastBullet : MonoBehaviour, ILightInteractable
             }
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(!canBeDeflected)
+        {
+            if(collider.GetComponent<PlayerMovementController>() != null)
+            {
+                collider.GetComponent<PlayerMovementController>().addHealth(-damage);
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void setDirection(Vector2 dir)

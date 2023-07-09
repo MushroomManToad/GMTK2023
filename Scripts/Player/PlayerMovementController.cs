@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.FilePathAttribute;
 using UnityEngine.U2D;
 using UnityEngine.UIElements;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovementController : MonoBehaviour
@@ -101,6 +99,8 @@ public class PlayerMovementController : MonoBehaviour
 
     // Vector for remembering previous frame's movement.
     Vector2 oldMoveVector = new Vector2(0.0f, 0.0f);
+
+    private int iFrames = 0;
 
     [SerializeField]
     GameObject playerSprite;
@@ -200,6 +200,8 @@ public class PlayerMovementController : MonoBehaviour
 
         // Handle the light mechanic
         lightUpdate();
+
+        if (iFrames > 0) iFrames--;
     }
 
     private void physicsLandMove()
@@ -1062,7 +1064,18 @@ public class PlayerMovementController : MonoBehaviour
     // Can handle negative values :)
     public void addHealth(int health)
     {
-        updateHealth(getHealth() + health);
+        if(health > 0)
+        {
+            updateHealth(getHealth() + health);
+        }
+        else
+        {
+            if(iFrames <= 0)
+            {
+                updateHealth(getHealth() + health);
+                iFrames = 50;
+            }
+        }
     }
 
     public void updateHealth(int newHealth)

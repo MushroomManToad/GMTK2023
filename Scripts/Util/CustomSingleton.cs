@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 /// <summary>
 /// Inherit from this base class to create a singleton.

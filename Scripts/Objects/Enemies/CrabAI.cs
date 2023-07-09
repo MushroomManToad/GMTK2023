@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrabAI : MonoBehaviour
 {
@@ -21,22 +22,33 @@ public class CrabAI : MonoBehaviour
     int phase1TimeSinceMove = -100;
 
     [SerializeField]
-    int maxHealth = 50;
-    int currHealth = 50;
+    int maxHealth = 124;
+    int currHealth = 124;
 
     int moveID = 0;
 
     [SerializeField]
-    Animator crabHandAnimator, crabBodyAnimator, crabBaseAnimator;
+    Animator crabHandAnimator, crabBodyAnimator, crabBaseAnimator, shadesAnimator;
 
     [SerializeField]
-    GameObject leftParticle, rightParticle, boomObj;
+    GameObject leftParticle, rightParticle, boomObj, crabHPBarObj;
+
+    [SerializeField]
+    private Image HPSlider;
 
     private ArrayList anglers = new ArrayList();
 
     private bool isDead = false;
 
     private int deathTimer = 0;
+
+    private bool transitioned = false;
+
+    [SerializeField]
+    private GameObject ballSplitter1, ballStream1, laserBeam;
+
+    [SerializeField]
+    private ScreenImageFade endScreen;
 
     public void startBattle()
     {
@@ -45,6 +57,7 @@ public class CrabAI : MonoBehaviour
             bossText.fadeText();
             isStarted = true;
             spawningAnglers=true;
+            crabHPBarObj.SetActive(true);
         }
     }
 
@@ -63,26 +76,59 @@ public class CrabAI : MonoBehaviour
                 phase1TimeSinceMove++;
             }
         }
+        else
+        {
+            if(!transitioned)
+            {
+                shadesAnimator.SetTrigger("ShadesIn");
+            }
+            if (phase1TimeSinceMove >= phase1MaxTime)
+            {
+                phase1TimeSinceMove = -100;
+                selectPhaseTwoMove();
+            }
+            else
+            {
+                runMove();
+                phase1TimeSinceMove++;
+            }
+        }
     }
 
     private void selectPhaseOneMove()
     {
-        moveID = 1;
+        moveID = Random.Range(1, 4);
+    }
+
+    private void selectPhaseTwoMove()
+    {
+        moveID = Random.Range(4, 7);
     }
 
     private void runMove()
     {
-        if(moveID == 1)
+        switch(moveID)
         {
-            leftSlam();
-        }
-        if (moveID == 2)
-        {
-            rightSlam();
-        }
-        if (moveID == 3)
-        {
-            twinSlam();
+            case 1:
+                leftSlam();
+                break;
+            case 2:
+                rightSlam();
+                break;
+            case 3:
+                twinSlam();
+                break;
+            case 4:
+                leftLightSlam();
+                break;
+            case 5:
+                rightLightSlam();
+                break;
+            case 6:
+                twinLightSlam();
+                break;
+            default:
+                break;
         }
     }
 
@@ -95,6 +141,8 @@ public class CrabAI : MonoBehaviour
         else if(phase1TimeSinceMove == 59)
         {
             leftParticle.SetActive(true);
+            GameObject obj = Instantiate(ballSplitter1);
+            obj.transform.position = new Vector3(-1.15f, 21.5f, 0.0f);
         }
         else if (phase1TimeSinceMove == 124)
         {
@@ -104,12 +152,99 @@ public class CrabAI : MonoBehaviour
 
     private void rightSlam()
     {
-
+        if (phase1TimeSinceMove == 0)
+        {
+            crabHandAnimator.SetTrigger("RightSlam");
+        }
+        else if (phase1TimeSinceMove == 59)
+        {
+            rightParticle.SetActive(true);
+            GameObject obj = Instantiate(ballSplitter1);
+            obj.transform.position = new Vector3(1.15f, 21.5f, 0.0f);
+        }
+        else if (phase1TimeSinceMove == 124)
+        {
+            rightParticle.SetActive(false);
+        }
     }
 
     private void twinSlam()
     {
+        if (phase1TimeSinceMove == 0)
+        {
+            crabHandAnimator.SetTrigger("TwinSlam");
+        }
+        else if (phase1TimeSinceMove == 59)
+        {
+            rightParticle.SetActive(true);
+            leftParticle.SetActive(true);
+            GameObject obj = Instantiate(ballStream1);
+            obj.transform.position = new Vector3(0.0f, 21.5f, 0.0f);
+        }
+        else if (phase1TimeSinceMove == 124)
+        {
+            rightParticle.SetActive(false);
+            leftParticle.SetActive(false);
+        }
+    }
 
+    private void leftLightSlam()
+    {
+        if (phase1TimeSinceMove == 0)
+        {
+            crabHandAnimator.SetTrigger("LeftSlam");
+            Instantiate(laserBeam);
+        }
+        else if (phase1TimeSinceMove == 59)
+        {
+            leftParticle.SetActive(true);
+            GameObject obj = Instantiate(ballSplitter1);
+            obj.transform.position = new Vector3(-1.15f, 21.5f, 0.0f);
+        }
+        else if (phase1TimeSinceMove == 124)
+        {
+            leftParticle.SetActive(false);
+        }
+    }
+
+    private void rightLightSlam()
+    {
+        if (phase1TimeSinceMove == 0)
+        {
+            crabHandAnimator.SetTrigger("RightSlam");
+            Instantiate(laserBeam);
+        }
+        else if (phase1TimeSinceMove == 59)
+        {
+            rightParticle.SetActive(true);
+            GameObject obj = Instantiate(ballSplitter1);
+            obj.transform.position = new Vector3(1.15f, 21.5f, 0.0f);
+        }
+        else if (phase1TimeSinceMove == 124)
+        {
+            rightParticle.SetActive(false);
+        }
+    }
+
+    private void twinLightSlam()
+    {
+        if (phase1TimeSinceMove == 0)
+        {
+            crabHandAnimator.SetTrigger("TwinSlam");
+            Instantiate(laserBeam);
+        }
+        else if (phase1TimeSinceMove == 59)
+        {
+            rightParticle.SetActive(true);
+            leftParticle.SetActive(true);
+            GameObject obj = Instantiate(ballStream1);
+            obj.transform.position = new Vector3(0.0f, 21.5f, 0.0f);
+        }
+        else if (phase1TimeSinceMove == 124)
+        {
+            rightParticle.SetActive(false);
+            leftParticle.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
@@ -135,6 +270,7 @@ public class CrabAI : MonoBehaviour
         {
             crabHandAnimator.SetTrigger("WhiteShake");
             crabBodyAnimator.SetTrigger("WhiteShake");
+            shadesAnimator.SetTrigger("ShadesYeet");
             foreach (GameObject obj in anglers)
             {
                 if (obj != null)
@@ -150,6 +286,7 @@ public class CrabAI : MonoBehaviour
         if(deathTimer == 200)
         {
             boomObj.SetActive(false);
+            endScreen.fadeIn();
         }
         if(deathTimer == 250)
         {
@@ -222,7 +359,7 @@ public class CrabAI : MonoBehaviour
     public void takeDamage()
     {
         currHealth -= 1;
-        Debug.Log(currHealth);
+        HPSlider.fillAmount = (float)currHealth / (float) maxHealth;
         if(currHealth <= 0)
         {
             die();
