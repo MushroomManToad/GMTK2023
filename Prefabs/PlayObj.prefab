@@ -720,6 +720,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1868360631515626020, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
   m_PrefabInstance: {fileID: 4229151322175421580}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2548253025428014766 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1868360631515626018, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
+  m_PrefabInstance: {fileID: 4229151322175421580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3467004830387981173 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 769464892866787321, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
@@ -774,6 +779,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 7980949792720289918, guid: 90b10b747fdf13b42909d17dbe6e4758, type: 3}
+      propertyPath: toCenter
+      value: 
+      objectReference: {fileID: 2548253025428014766}
     - target: {fileID: 7980949792720289919, guid: 90b10b747fdf13b42909d17dbe6e4758, type: 3}
       propertyPath: m_RootOrder
       value: -1
