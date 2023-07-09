@@ -62,4 +62,9 @@ public class Angler : MonoBehaviour
         fastBullet.transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Atan2(facing.y, facing.x) * (180.0f / Mathf.PI));
         fastBullet.transform.position = new Vector3(transform.position.x + normVec.x, transform.position.y + normVec.y, 0.0f);
     }
+
+    public void setPlayer(GameObject player)
+    {
+        this.player = player;
+    }
 }
