@@ -1478,6 +1478,14 @@ CompositeCollider2D:
       - X: 190000000
         Y: 380000000
       - X: 190000000
+        Y: 200000000
+      - X: 180000000
+        Y: 200000000
+      - X: 180000000
+        Y: 190000000
+      - X: 190000000
+        Y: 190000000
+      - X: 190000000
         Y: 160000000
       - X: 60000000
         Y: 160000000
@@ -1527,14 +1535,6 @@ CompositeCollider2D:
         Y: 270000000
       - X: 140000000
         Y: 270000000
-    - - X: 180000000
-        Y: 210000000
-      - X: 170000000
-        Y: 210000000
-      - X: 170000000
-        Y: 200000000
-      - X: 180000000
-        Y: 200000000
     - - X: 110000000
         Y: 210000000
       - X: 100000000
@@ -1583,6 +1583,10 @@ CompositeCollider2D:
       - {x: 9, y: 33.00003}
       - {x: 9.00003, y: 38}
       - {x: 19, y: 37.999973}
+      - {x: 18.999971, y: 20}
+      - {x: 18, y: 19.999971}
+      - {x: 18.000029, y: 19}
+      - {x: 19, y: 18.999971}
       - {x: 18.999971, y: 16}
       - {x: 6, y: 15.999971}
       - {x: 6.000029, y: 15}
@@ -1611,10 +1615,6 @@ CompositeCollider2D:
       - {x: 10.99997, y: 21}
       - {x: 10, y: 20.999971}
       - {x: 10.00003, y: 20}
-    - - {x: 17.999971, y: 20}
-      - {x: 17.999971, y: 21}
-      - {x: 17, y: 20.999971}
-      - {x: 17.000029, y: 20}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -28090,6 +28090,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 18, y: 19, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 10
+      m_TileSpriteIndex: 8
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 19, y: 19, z: 0}
     second:
       serializedVersion: 2
@@ -28601,16 +28611,6 @@ Tilemap:
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
   - first: {x: 10, y: 20, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 10
-      m_TileSpriteIndex: 8
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 17, y: 20, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 10
@@ -47541,8 +47541,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 2.584, y: 4.6394005, z: 0}
-    m_Extent: {x: 9.2666, y: 9.7759, z: 0}
+    m_Center: {x: 2.589, y: 4.63975, z: 0}
+    m_Extent: {x: 9.2627, y: 9.771851, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
