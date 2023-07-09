@@ -476,7 +476,7 @@ public class PlayerMovementController : MonoBehaviour
     private void startLeft()
     {
         leftInput = true;
-        if(upInput && downInput)
+        if(!upInput && !downInput)
         {
             setSpriteFacing(EnumFacing.LEFT);
         }
