@@ -691,9 +691,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 701552791340580528}
     - target: {fileID: 1868360631515626022, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
+      propertyPath: stamRegen
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868360631515626022, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1300382408894902869}
+    - target: {fileID: 1868360631515626022, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
+      propertyPath: playerSprite
+      value: 
+      objectReference: {fileID: 7671284902411752741}
+    - target: {fileID: 1868360631515626022, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
+      propertyPath: stamCostPerFrame
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127791840534781771, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3705348140831126100, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
       propertyPath: playerSpriteRenderer
       value: 
@@ -751,6 +767,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &7671284902411752741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5820082562020829609, guid: a5eb6812e9f9f474ca9f121dcd498ffa, type: 3}
+  m_PrefabInstance: {fileID: 4229151322175421580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8991970350678602285
 PrefabInstance:
   m_ObjectHideFlags: 0
